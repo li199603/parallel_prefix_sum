@@ -469,30 +469,30 @@ __global__ void add_kernel(int *prefix_sum, int *valus, int N)
 
 void recursive_scan(int *d_data, int *d_prefix_sum, int N, bool bcao)
 {
-    int block_size = N / MAX_ELEMENTS_PER_BLOCK;
+    int block_num = N / MAX_ELEMENTS_PER_BLOCK;
     if (N % MAX_ELEMENTS_PER_BLOCK != 0)
     {
-        block_size += 1;
+        block_num += 1;
     }
     int *d_sums, *d_sums_prefix_sum;
-    CUDA_CHECK(cudaMalloc(&d_sums, block_size * sizeof(int)));
-    CUDA_CHECK(cudaMalloc(&d_sums_prefix_sum, block_size * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_sums, block_num * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_sums_prefix_sum, block_num * sizeof(int)));
 
     if (bcao)
     {
-        parallel_large_scan_bcao_kernel<<<block_size, MAX_THREADS_PER_BLOCK>>>(d_data, d_prefix_sum, N, d_sums);
+        parallel_large_scan_bcao_kernel<<<block_num, MAX_THREADS_PER_BLOCK>>>(d_data, d_prefix_sum, N, d_sums);
     }
     else
     {
-        parallel_large_scan_kernel<<<block_size, MAX_THREADS_PER_BLOCK>>>(d_data, d_prefix_sum, N, d_sums);
+        parallel_large_scan_kernel<<<block_num, MAX_THREADS_PER_BLOCK>>>(d_data, d_prefix_sum, N, d_sums);
     }
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
 
-    if (block_size != 1)
+    if (block_num != 1)
     {
-        recursive_scan(d_sums, d_sums_prefix_sum, block_size, bcao);
-        add_kernel<<<block_size, MAX_THREADS_PER_BLOCK>>>(d_prefix_sum, d_sums_prefix_sum, N);
+        recursive_scan(d_sums, d_sums_prefix_sum, block_num, bcao);
+        add_kernel<<<block_num, MAX_THREADS_PER_BLOCK>>>(d_prefix_sum, d_sums_prefix_sum, N);
         CUDA_CHECK(cudaGetLastError());
         CUDA_CHECK(cudaDeviceSynchronize());
     }
