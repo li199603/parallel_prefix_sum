@@ -9,7 +9,7 @@ set(INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include)
 
 set(CPP_SRC
-    ${PROJECT_SOURCE_DIR}/src/main.cc
+    ${PROJECT_SOURCE_DIR}/src/main.cpp
     ${PROJECT_SOURCE_DIR}/src/utils.cpp)
 
 set(CUDA_SRC
