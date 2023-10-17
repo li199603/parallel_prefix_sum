@@ -1,4 +1,5 @@
 # Parallel Prefix Sum (Scan) with CUDA
+https://zhuanlan.zhihu.com/p/661460705  
 My implementation of parallel exclusive scan in CUDA, following [this NVIDIA paper](https://developer.download.nvidia.com/compute/cuda/1.1-Beta/x86_website/projects/scan/doc/scan.pdf).  
 ## Achievements
 - Block scanning
