@@ -4,7 +4,7 @@
 
 void data_init(int *data, int N)
 {
-    std::uniform_int_distribution<> int_generator(-10, 10);
+    std::uniform_int_distribution<> int_generator(-10, 100);
     std::default_random_engine rand_engine(time(nullptr));
     for (int i = 0; i < N; i++)
     {

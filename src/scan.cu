@@ -204,7 +204,7 @@ __global__ void parallel_block_scan_kernel(int *data, int *prefix_sum, int N)
             int ai = offset * (2 * tid + 1) - 1;
             int bi = offset * (2 * tid + 2) - 1;
 
-            float v = tmp[ai];
+            int v = tmp[ai];
             tmp[ai] = tmp[bi];
             tmp[bi] += v;
         }
@@ -267,7 +267,7 @@ __global__ void parallel_block_scan_bcao_kernel(int *data, int *prefix_sum, int 
             ai += CONFLICT_FREE_OFFSET(ai);
             bi += CONFLICT_FREE_OFFSET(bi);
 
-            float v = tmp[ai];
+            int v = tmp[ai];
             tmp[ai] = tmp[bi];
             tmp[bi] += v;
         }
@@ -365,7 +365,7 @@ __global__ void parallel_large_scan_kernel(int *data, int *prefix_sum, int N, in
             int ai = offset * (2 * tid + 1) - 1;
             int bi = offset * (2 * tid + 2) - 1;
 
-            float v = tmp[ai];
+            int v = tmp[ai];
             tmp[ai] = tmp[bi];
             tmp[bi] += v;
         }
@@ -432,7 +432,7 @@ __global__ void parallel_large_scan_bcao_kernel(int *data, int *prefix_sum, int 
             ai += CONFLICT_FREE_OFFSET(ai);
             bi += CONFLICT_FREE_OFFSET(bi);
 
-            float v = tmp[ai];
+            int v = tmp[ai];
             tmp[ai] = tmp[bi];
             tmp[bi] += v;
         }
